@@ -21,7 +21,7 @@ const Particles = () => {
         this.y = Math.random() * canvas.height;
         this.baseX = x;
         this.baseY = y;
-        this.density = Math.random() * 30 + 1;
+        this.density = Math.random() * 100 + 1;
         this.size = 3;
         this.color =
           Math.random() > 0.5 ? "rgb(148,0,211)" : "rgb(147,112,219, 1)";
@@ -55,7 +55,7 @@ const Particles = () => {
           let distance = Math.sqrt(dx * dx + dy * dy);
           let forceDirectionX = dx / distance;
           let forceDirectionY = dy / distance;
-          let maxDistance = 70;
+          let maxDistance = 40;
           let force = (maxDistance - distance) / maxDistance;
           let directionX = forceDirectionX * force * this.density * 2.5;
           let directionY = forceDirectionY * force * this.density * 2.5;
@@ -69,11 +69,11 @@ const Particles = () => {
         if (!mouseDisturbed && this.startConvergence) {
           if (this.x !== this.baseX) {
             let dxBase = this.x - this.baseX;
-            this.x -= dxBase / 45;
+            this.x -= dxBase / 20;
           }
           if (this.y !== this.baseY) {
             let dyBase = this.y - this.baseY;
-            this.y -= dyBase / 45;
+            this.y -= dyBase / 20;
           }
         }
 
@@ -104,8 +104,8 @@ const Particles = () => {
       );
       const data = imageData.data;
 
-      const stepSize = 5;
-      const skipProbability = 0.2;
+      const stepSize = 6;
+      const skipProbability = 0;
 
       for (let y = 0; y < canvas.height; y += stepSize) {
         for (let x = offsetX; x < canvas.width; x += stepSize) { // Start from the offsetX

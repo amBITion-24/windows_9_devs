@@ -1,5 +1,6 @@
 'use client'
 import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import Particles from "./Particles";
 import Link from "next/link";
 import styles from "./globals.module.css";
@@ -45,6 +46,22 @@ export default function Home() {
     setShuffledImgs(shuffleArray(imgs));
   }, []);
 
+  useEffect(() => {
+    // Smooth scroll to anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        // @ts-ignore
+        const target = document.querySelector(anchor.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+  }, []);
+
   const handleNext = () => {
     setCurrentImageIndex((prevIndex) => (prevIndex + 1) % shuffledImgs.length);
     setAnswer('');
@@ -76,7 +93,7 @@ export default function Home() {
 
   return (
     <>
-      <section>
+      <motion.section id="Home" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6 }}>
         <nav className={`fixed top-0 w-full z-10 bg-transparent p-4 transition-transform duration-300 ${showNavbar ? 'transform translate-y-0' : 'transform -translate-y-full'}`}>
           <div className="container mx-auto flex justify-between items-center">
             <Link href="/">
@@ -84,29 +101,29 @@ export default function Home() {
             </Link>
             <div className="flex space-x-12">
               <Link
-                href="#"
+                href="#Home"
                 className="text-slate-400 text-xl font-semibold hover:bg-gradient-to-r from-[#055ad9] to-[#F907FC] bg-clip-text hover:text-transparent transition-all duration-500 transform hover:scale-110"
               >
                 Home
               </Link>
               <Link
-                href="#"
+                href="#Playground"
                 className="text-slate-400 text-xl font-semibold hover:bg-gradient-to-r from-[#055ad9] to-[#F907FC] bg-clip-text hover:text-transparent transition-all duration-500 transform hover:scale-110"
               >
-                About
+                Playground
               </Link>
               <Link
-                href="#"
+                href="#Workflow"
                 className="text-slate-400 text-xl font-semibold hover:bg-gradient-to-r from-[#055ad9] to-[#F907FC] bg-clip-text hover:text-transparent transition-all duration-500 transform hover:scale-110"
               >
-                Contact
+                Workflow
               </Link>
             </div>
           </div>
           <hr className="border-slate-400 mt-2" />
         </nav>
 
-        <div className="flex pt-20">
+        <motion.div className="flex pt-20" initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
           <div className="w-1/2 p-8 flex flex-col items-center justify-center">
             <h3 className="font-extrabold ml-10 text-8xl bg-gradient-to-r from-[#055ad9] to-[#F907FC] bg-clip-text text-transparent">
               fence.ai
@@ -125,12 +142,15 @@ export default function Home() {
           </div>
 
           <Particles />
-        </div>
-      </section>
-      <section className="">
-        <div className="flex flex-col justify-center items-center h-96 bg-black pt-20">
-          <h5 className="p-4 font-bold text-5xl text-white">Real or Fake?</h5>
-          <div className="p-4 w-1/2 h-full bg-slate-800 border-2 border-slate-600 rounded-lg flex justify-center items-center">
+        </motion.div>
+      </motion.section>
+      <motion.section id="Playground" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6 }}>
+        <div className="flex flex-col justify-center items-center h-full bg-black pt-20">
+          <motion.h5 className="p-4 font-bold text-5xl text-white">Real or Fake?</motion.h5>
+          <motion.div className="p-4 w-1/2 h-full bg-slate-800 border-2 border-slate-600 rounded-lg flex justify-center items-center"
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}>
             {shuffledImgs.length > 0 && (
               <img
                 src={shuffledImgs[currentImageIndex].src}
@@ -138,34 +158,51 @@ export default function Home() {
                 alt={shuffledImgs[currentImageIndex].alt}
               />
             )}
-          </div>
-          <div className="mt-4 flex space-x-4">
+          </motion.div>
+          <motion.div className="mt-4 flex space-x-4"
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}>
             <button
-              className="px-4 py-2 bg-green-500 text-white font-bold rounded-lg hover:bg-green-700"
+              className="px-12 py-4 bg-green-500 text-white font-bold rounded-lg hover:bg-green-700"
               onClick={() => handleSelect('Real')}
             >
               Real
             </button>
             <button
-              className="px-4 py-2 bg-red-500 text-white font-bold rounded-lg hover:bg-red-700"
+              className="px-12 py-4 bg-red-500 text-white font-bold rounded-lg hover:bg-red-700"
               onClick={() => handleSelect('Fake')}
             >
               Fake
             </button>
-          </div>
-          <div className="mt-4">
-            <p id="answerPrompt" className="text-xl text-white">{answer && `You selected: ${answer}`}</p>
-          </div>
-          <div className="mt-4">
+          </motion.div>
+          <motion.div className="mt-4"
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.6 }}>
+            <p id="answerPrompt" className="text-2xl text-white">{answer && `You selected: ${answer}`}</p>
+          </motion.div>
+          <motion.div className=""
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.8 }}>
             <button
-              className="px-4 py-2 bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-700"
+              className="px-12 py-4 bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-700"
               onClick={handleNext}
             >
               Next
             </button>
-          </div>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
+      <motion.section id="Workflow" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6 }}>
+        <motion.h5 className="flex items-center justify-center p-4 font-bold text-5xl text-white"
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}>
+          Workflow
+        </motion.h5>
+      </motion.section>
     </>
   );
 }
