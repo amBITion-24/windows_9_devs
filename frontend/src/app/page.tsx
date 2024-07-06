@@ -8,8 +8,8 @@ export default function Home() {
       <section>
         <nav className="fixed top-0 w-full z-10 bg-transparent p-4">
           <div className="container mx-auto flex justify-between items-center">
-            <Link href="#" className="text-white text-2xl font-bold">
-              Logo
+            <Link href="/">
+              <img src="/images/Logo.png" className="size-4"></img>
             </Link>
             <div className="flex space-x-12">
               <Link
