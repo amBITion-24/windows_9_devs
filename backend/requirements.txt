@@ -8,3 +8,5 @@ numpy
 Pillow
 torch
 transformers==4.20.1
+librosa
+tensorflow==2.15.0

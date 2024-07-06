@@ -1,6 +1,7 @@
 from scripts.CropFaces import *
 from scripts.DetectDeepfake import *
 from scripts.DetectArt import *
+from scripts.DetectAudio import *
 from flask import Flask, request
 from flask_cors import CORS
 from transformers import pipeline
@@ -39,6 +40,24 @@ def handle_detect_image():
                 return f'Unsupported file format: {file_extension}'
     else:
         return 'No image data received'
+    
+@app.route('/detect_audio', methods=['POST'])
+def handle_detect_audio():
+    if 'file' in request.files:
+            file = request.files['file']
+            file_path = file.filename
+            file.save(file_path)
+            file_extension = file.filename.split('.')[-1].lower()
+            if file_extension in ['wav', 'mp3', 'ogg']:
+                audio_result = predict_audio(file_path)
+                if audio_result is not None:
+                    return audio_result
+                else:
+                    return f'Error processing audio file: {file.filename}'
+            else:
+                return f'Unsupported file format: {file_extension}'
+    else:
+        return 'No data received'
 
 
 if __name__ == '__main__':
