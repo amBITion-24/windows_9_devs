@@ -7,7 +7,7 @@ from pathlib import Path
 def crop_faces(image_path):
     # Load a model
 
-    model_path = Path(__file__).parent / 'models' / 'yolov5s.pt'
+    model_path = Path(__file__).parent.parent / 'models' / 'face_recognizer.pt'
     model = YOLO(model_path)  # load a custom model
 
     img = cv2.imread(image_path)
@@ -16,6 +16,7 @@ def crop_faces(image_path):
     cropped_images = []  # List to store cropped images
 
     for result in results:
+        # get classification of result
         boxes = result.boxes.xyxy.tolist()
     # Iterate through the bounding boxes
         for i, box in enumerate(boxes):

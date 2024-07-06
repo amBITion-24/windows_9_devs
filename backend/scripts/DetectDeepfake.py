@@ -1,5 +1,6 @@
 import torch
 import torch.nn.functional as F
+import numpy as np
 from facenet_pytorch import MTCNN, InceptionResnetV1
 from PIL import Image
 import cv2
@@ -26,14 +27,20 @@ model.load_state_dict(checkpoint['model_state_dict'])
 model.to(DEVICE)
 model.eval()
 
-def predict(input_image:Image.Image):
+
+def predict(face):
     """Predict the label of the input_image"""
-    face = mtcnn(input_image)
-    if face is None:
-        return -1
-    face = face.unsqueeze(0) # add the batch dimension
-    face = F.interpolate(face, size=(256, 256), mode='bilinear', align_corners=False)
+    # face = mtcnn(input_image)
+    # print(face.shape if face != None else None)
+    # create torch tensor from the PIL image
+    # if face is None:
+    #     return -1
+    face = np.transpose(face, (2, 0, 1))
+    face = torch.from_numpy(face).to(DEVICE)
     
+    face = face.unsqueeze(0)  # add the batch dimension
+    face = F.interpolate(face, size=(256, 256), mode='bilinear', align_corners=False)
+
     # convert the face into a numpy array to be able to plot it
     prev_face = face.squeeze(0).permute(1, 2, 0).cpu().detach().int().numpy()
     prev_face = prev_face.astype('uint8')
@@ -43,7 +50,7 @@ def predict(input_image:Image.Image):
     face = face / 255.0
     face_image_to_plot = face.squeeze(0).permute(1, 2, 0).cpu().detach().int().numpy()
 
-    target_layers=[model.block8.branch1[-1]]
+    target_layers = [model.block8.branch1[-1]]
     cam = GradCAM(model=model, target_layers=target_layers)
     targets = [ClassifierOutputTarget(0)]
 
@@ -55,22 +62,27 @@ def predict(input_image:Image.Image):
     with torch.no_grad():
         output = torch.sigmoid(model(face).squeeze(0))
         prediction = "real" if output.item() < 0.5 else "fake"
-        
+
         real_prediction = 1 - output.item()
         fake_prediction = output.item()
-        
+
         confidences = {
             'real': real_prediction,
             'fake': fake_prediction
         }
-    #face_with_mask looks cool and can be returned too
-    cv2.imwrite("mask.jpg",face_with_mask)
+    # face_with_mask looks cool and can be returned too
+    cv2.imwrite("mask.jpg", face_with_mask)
     return confidences
 
-def predict_face(image_path):
-    img = Image.open(image_path)
-    preds = predict(img)
+
+def predict_face(pil_images):
+    preds = []
+    for pil_image in pil_images:
+        pred = predict(pil_image)
+        if pred != -1:
+            preds.append(pred)
     return preds
+
 
 def predict_face_from_video(faces_array):
     predictions = []
@@ -79,5 +91,4 @@ def predict_face_from_video(faces_array):
         preds = predict(img)
         if preds != -1:
             predictions.append(preds)
-    print(predictions)
     return predictions
