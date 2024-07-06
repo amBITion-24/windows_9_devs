@@ -90,7 +90,7 @@ const Particles = () => {
       const imgCtx = imgCanvas.getContext("2d");
       imgCanvas.width = canvas.width;
       imgCanvas.height = canvas.height;
-      const scale = 1;
+      const scale = 1.5;
       const scaledWidth = img.width * scale;
       const scaledHeight = img.height * scale;
       const offsetX = imgCanvas.width - scaledWidth; // Align to the right
@@ -104,7 +104,7 @@ const Particles = () => {
       );
       const data = imageData.data;
 
-      const stepSize = 6;
+      const stepSize = 5;
       const skipProbability = 0.2;
 
       for (let y = 0; y < canvas.height; y += stepSize) {
@@ -150,7 +150,7 @@ const Particles = () => {
     });
 
     loadImage(
-    "https://cdn.discordapp.com/attachments/1254005320485703780/1259168560677261362/fence.png?ex=668ab39b&is=6689621b&hm=cfd7528937c5616a5ca6ed0a8413ed152760b3ffb9120837aefcd715797c2417&"
+    "https://cdn.discordapp.com/attachments/1254005320485703780/1259242983610515590/particlelogo.png?ex=668af8ea&is=6689a76a&hm=5a42a8192ecb5795607443d2fce69178c4d1109ef41334f3796ae6a3ace1ee50&"
     );
   }, []);
 

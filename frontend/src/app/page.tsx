@@ -8,7 +8,7 @@ export default function Home() {
   const [answer, setAnswer] = useState('');
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [shuffledImgs, setShuffledImgs] = useState<{ src: string; alt: string; answer: string; }[]>([]);
-
+  const [showNavbar, setShowNavbar] = useState(true);
   const imgs = [
     { src: '/images/image1.jpg', alt: 'Game Image1', answer: 'Real' },
     { src: '/images/image2.jpg', alt: 'Game Image2', answer: 'Fake' },
@@ -30,7 +30,7 @@ export default function Home() {
     { src: '/images/image18.jpeg', alt: 'Game Image18', answer: 'Real' },
     { src: '/images/image19.png', alt: 'Game Image19', answer: 'Real' },
     { src: '/images/image20.jpeg', alt: 'Game Image20', answer: 'Real' }
-  ];
+  ].map(img => ({...img, style: { width: '400px', height: '400px' }}));
 
   const shuffleArray = (array: { src: string; alt: string; answer: string; }[]) => {
     let shuffledArray = [...array];
@@ -59,10 +59,25 @@ export default function Home() {
     }
   };
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY === 0) {
+        setShowNavbar(true);
+      } else {
+        setShowNavbar(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
     <>
       <section>
-        <nav className="fixed top-0 w-full z-10 bg-transparent p-4">
+        <nav className={`fixed top-0 w-full z-10 bg-transparent p-4 transition-transform duration-300 ${showNavbar ? 'transform translate-y-0' : 'transform -translate-y-full'}`}>
           <div className="container mx-auto flex justify-between items-center">
             <Link href="/">
               <img src="/images/Logo.png" className="h-12" alt="Logo" />
@@ -96,16 +111,16 @@ export default function Home() {
             <h3 className="font-extrabold ml-10 text-8xl bg-gradient-to-r from-[#055ad9] to-[#F907FC] bg-clip-text text-transparent">
               fence.ai
             </h3>
-            <h1 className="text-4xl ml-10 mt-1">Welcome to our website!</h1>
-            <p className="text-xl mt-4 ml-6">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod justo id nunc ultrices, id aliquam nisl tincidunt. Nullam auctor, nunc id aliquet lacinia, nisl nunc tincidunt urna, a tincidunt nunc nunc id nunc.
+            <h1 className="text-2xl font-bold ml-10 mt-1">Your Shield Against AI Exploitation.</h1>
+            <p className="text-xl mt-4 ml-12">
+              Protecting user media from AI exploitation through content immunization and accurate AI detection, ensuring your digital assets remain secure and authentic on social media.
             </p>
             <div className="flex space-x-4 mt-4">
               <Link href="/Protect" className="ext-btn">Protect</Link>
               <Link href="/Detect" className="ext-btn">Detect</Link>
             </div>
             <div className="flex p-4 items-center justify-center">
-              <button className="ext-btn">Download!</button>
+              <button className="ext-btn-1">Download!</button>
             </div>
           </div>
 
@@ -113,13 +128,13 @@ export default function Home() {
         </div>
       </section>
       <section className="">
-        <div className="flex flex-col justify-center items-center h-96 bg-black">
+        <div className="flex flex-col justify-center items-center h-96 bg-black pt-20">
           <h5 className="p-4 font-bold text-5xl text-white">Real or Fake?</h5>
           <div className="p-4 w-1/2 h-full bg-slate-800 border-2 border-slate-600 rounded-lg flex justify-center items-center">
             {shuffledImgs.length > 0 && (
               <img
                 src={shuffledImgs[currentImageIndex].src}
-                className="w-32 h-32"
+                className="w-64 h-64 object-cover rounded-lg"
                 alt={shuffledImgs[currentImageIndex].alt}
               />
             )}
