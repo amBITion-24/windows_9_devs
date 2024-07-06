@@ -1,2 +1,10 @@
 flask
 flask_cors
+https://github.com/jacobgil/pytorch-grad-cam/archive/refs/heads/master.zip
+facenet_pytorch
+ultralytics
+opencv-python-headless
+numpy
+Pillow
+torch
+transformers==4.20.1
