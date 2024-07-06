@@ -9,7 +9,7 @@ export default function Home() {
         <nav className="fixed top-0 w-full z-10 bg-transparent p-4">
           <div className="container mx-auto flex justify-between items-center">
             <Link href="/">
-              <img src="/images/Logo.png" className="size-4"></img>
+              <img src="/images/Logo.png" className="h-12"></img>
             </Link>
             <div className="flex space-x-12">
               <Link
