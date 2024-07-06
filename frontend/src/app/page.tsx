@@ -11,28 +11,28 @@ export default function Home() {
             <Link href="#" className="text-white text-2xl font-bold">
               Logo
             </Link>
-            <div className="flex space-x-16">
+            <div className="flex space-x-12">
               <Link
                 href="#"
-                className="text-white text-2xl font-semibold hover:bg-gradient-to-r from-[#055ad9] to-[#F907FC] bg-clip-text hover:text-transparent transition-all duration-500 transform hover:scale-110"
+                className="text-slate-400 text-xl font-semibold hover:bg-gradient-to-r from-[#055ad9] to-[#F907FC] bg-clip-text hover:text-transparent transition-all duration-500 transform hover:scale-110"
               >
                 Home
               </Link>
               <Link
                 href="#"
-                className="text-white text-2xl font-semibold hover:bg-gradient-to-r from-[#055ad9] to-[#F907FC] bg-clip-text hover:text-transparent transition-all duration-500 transform hover:scale-110"
+                className="text-slate-400 text-xl font-semibold hover:bg-gradient-to-r from-[#055ad9] to-[#F907FC] bg-clip-text hover:text-transparent transition-all duration-500 transform hover:scale-110"
               >
                 About
               </Link>
               <Link
                 href="#"
-                className="text-white text-2xl font-semibold hover:bg-gradient-to-r from-[#055ad9] to-[#F907FC] bg-clip-text hover:text-transparent transition-all duration-500 transform hover:scale-110"
+                className="text-slate-400 text-xl font-semibold hover:bg-gradient-to-r from-[#055ad9] to-[#F907FC] bg-clip-text hover:text-transparent transition-all duration-500 transform hover:scale-110"
               >
                 Contact
               </Link>
             </div>
           </div>
-          <hr className="border mt-2" />
+          <hr className="border-slate-400 mt-2" />
         </nav>
 
         <div className="flex pt-20">
