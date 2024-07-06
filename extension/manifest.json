@@ -4,10 +4,7 @@
 	"name": "fence.ai",
 	"version": "0.1.0",
 	"description": "Detect AI generated images and protect images against AI exploitation.",
-	"permissions": [
-		"activeTab",
-		"scripting"
-	],
+	"permissions": ["activeTab", "scripting"],
 	"host_permissions": ["*://*.instagram.com/*", "*://*.whatsapp.com/*", "*://*.discord.com/*"],
 	"background": {
 		"service_worker": "js/background.js"
@@ -20,6 +17,12 @@
 		"page": "popup.html"
 	},
 	"content_scripts": [
+		{
+			"css": ["css/styles.css"],
+			"js": ["js/content/content.js"],
+			"matches": ["*://*.instagram.com/*", "*://*.whatsapp.com/*", "*://*.discord.com/*"],
+			"run_at": "document_end"
+		},
 		{
 			"css": ["css/styles.css"],
 			"js": ["js/content/instagram.js"],
