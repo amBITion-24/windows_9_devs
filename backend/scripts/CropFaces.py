@@ -3,9 +3,12 @@ import cv2
 import numpy as np
 from pathlib import Path
 
-def crop_faces(image_path): 
+
+def crop_faces(image_path):
     # Load a model
-    model = YOLO(Path("models/face_recogniser.pt"))  # load a custom model
+
+    model_path = Path(__file__).parent / 'models' / 'yolov5s.pt'
+    model = YOLO(model_path)  # load a custom model
 
     img = cv2.imread(image_path)
     results = model(img)  # return a list of Results object
@@ -24,7 +27,8 @@ def crop_faces(image_path):
     # Convert list of images to a NumPy array
     # Note: This assumes all images are resized to a common shape for consistency
     target_width, target_height = 128, 128  # Example target size
-    cropped_images_resized = [cv2.resize(img, (target_width, target_height)) for img in cropped_images]
+    cropped_images_resized = [cv2.resize(img, (target_width, target_height))
+                              for img in cropped_images]
     images_array = np.array(cropped_images_resized)
     print("Shape of the images array:", images_array.shape)
     return images_array

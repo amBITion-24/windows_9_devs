@@ -70,7 +70,6 @@ def predict(input_image:Image.Image):
 def predict_face(image_path):
     img = Image.open(image_path)
     preds = predict(img)
-    print(preds)
     return preds
 
 def predict_face_from_video(faces_array):

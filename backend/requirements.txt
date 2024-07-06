@@ -7,6 +7,6 @@ opencv-python-headless
 numpy
 Pillow
 torch
-transformers==4.20.1
+transformers
 librosa
 tensorflow==2.15.0
