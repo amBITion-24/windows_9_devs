@@ -150,7 +150,7 @@ const Particles = () => {
     });
 
     loadImage(
-    //  "https://cdn.discordapp.com/attachments/1254005320485703780/1259168560677261362/fence.png?ex=668ab39b&is=6689621b&hm=cfd7528937c5616a5ca6ed0a8413ed152760b3ffb9120837aefcd715797c2417&"
+    "https://cdn.discordapp.com/attachments/1254005320485703780/1259168560677261362/fence.png?ex=668ab39b&is=6689621b&hm=cfd7528937c5616a5ca6ed0a8413ed152760b3ffb9120837aefcd715797c2417&"
     );
   }, []);
 
