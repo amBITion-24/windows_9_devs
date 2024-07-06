@@ -28,6 +28,7 @@ def handle_detect_image():
                 if (face_array.shape[0] != 0):
                     #faces present so do face based detection
                     print("Face detection")
+                    result = predict(file_path,pipe)
                 else:
                     #face absent so perfect art based detection
                     print("art/no face detection")
