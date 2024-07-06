@@ -148,6 +148,12 @@ wrapper.addEventListener("click", async (event) => {
     value = event.target?.parentElement?.children[0]?.children[0]?.children[0]?.children[0]?.src;
     if (!value) return;
     sendMessageToBackground("detectionRequest", value, "video/mp4");
+  } else if (event.target.id.startsWith("button-discord-image")) {
+    console.log("fuck u");
+    debugger;
+    value = event.target?.parentElement?.children[1]?.children[0]?.children[0]?.children[0].href;
+    if (!value) return;
+    sendMessageToBackground("detectionRequest", value, "image/jpeg");
   }
 });
 
@@ -166,7 +172,7 @@ function inject_2() {
   );
   appendConsentButton("discord", "scroller_d90b3d thin_c49869 scrollerBase_c49869");
   //discord video
-  appendDetectButton("mosaicItem_ab8b23 mosaicItemNoJustify_ab8b23 mosaicItemMediaMosaic_ab8b23 hideOverflow_ab8b23");
+  appendDetectButton("mosaicItem_e5c1dc mosaicItemNoJustify_e5c1dc mosaicItemMediaMosaic_e5c1dc hideOverflow_e5c1dc");
   //insta video
   appendDetectButton("x5yr21d x10l6tqk x13vifvy xh8yej3");
   //whatsapp
@@ -214,10 +220,17 @@ function appendDetectButton(elementId) {
       buttonEl.id = `button-whatsapp-common`;
       buttonEl.className = "verify-video-button-whatsapp";
     } else if (
-      elementId == "mosaicItem_ab8b23 mosaicItemNoJustify_ab8b23 mosaicItemMediaMosaic_ab8b23 hideOverflow_ab8b23"
+      elementId == "mosaicItem_e5c1dc mosaicItemNoJustify_e5c1dc mosaicItemMediaMosaic_e5c1dc hideOverflow_e5c1dc" &&
+      targetElements[i]?.children.length == 2
     ) {
       buttonEl.id = `button-discord-video`;
       buttonEl.className = "verify-video-button-discord";
+    } else if (
+      elementId == "mosaicItem_e5c1dc mosaicItemNoJustify_e5c1dc mosaicItemMediaMosaic_e5c1dc hideOverflow_e5c1dc" &&
+      targetElements[i]?.children.length == 1
+    ) {
+      buttonEl.id = `button-discord-image`;
+      buttonEl.className = "verify-image-button-discord";
     }
     buttonEl.src = "https://iili.io/dH9heJs.png";
     //instagram
@@ -245,10 +258,18 @@ function appendDetectButton(elementId) {
     //discord video
     if (
       !targetElements[i]?.querySelector("#button-discord-video") &&
-      elementId == "mosaicItem_ab8b23 mosaicItemNoJustify_ab8b23 mosaicItemMediaMosaic_ab8b23 hideOverflow_ab8b23" &&
-      targetElements[i]?.children.length >= 2
+      elementId == "mosaicItem_e5c1dc mosaicItemNoJustify_e5c1dc mosaicItemMediaMosaic_e5c1dc hideOverflow_e5c1dc" &&
+      targetElements[i]?.children.length == 2
     ) {
       targetElements[i]?.appendChild(buttonEl);
+    }
+
+    if (
+      !targetElements[i]?.querySelector("#button-discord-image") &&
+      elementId == "mosaicItem_e5c1dc mosaicItemNoJustify_e5c1dc mosaicItemMediaMosaic_e5c1dc hideOverflow_e5c1dc" &&
+      targetElements[i]?.children.length == 1
+    ) {
+      targetElements[i]?.insertBefore(buttonEl, targetElements[i]?.children[0]);
     }
   }
 }
