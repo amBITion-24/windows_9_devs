@@ -17,14 +17,14 @@ export default function Page() {
 
     reader.onload = () => {
       console.log("called: ", reader);
-      const url = "https://api.cortex.cerebrium.ai/v4/p-42591027/a/predict";
+      const url = "https://api.cortex.cerebrium.ai/v4/p-574cb281/image-protection/predict";
 
       //@ts-ignore
       const payload = JSON.stringify({ prompt: `${reader?.result?.split("base64,")[1]}` });
 
       const headers = {
         Authorization:
-          "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm9qZWN0SWQiOiJwLTQyNTkxMDI3IiwiaWF0IjoxNzE3NzYwNjE5LCJleHAiOjIwMzMzMzY2MTl9.Zz9m_Gmt2jy2jO2vffKBdByf27iN9hxNMACFASWm5-jVyKIfG6mOdNYLwHbLOpQq3WGq9GOGOnnZy0V9vcVnlDxg1tGIvdirvxfGvkPQvZDWR8l4RU3Xp9qCtHIKHnfSe-vmS5nevldke6eDg0qHgk2r577ZwjJl_QpMpeCzLTZA2O2FLgkcIwMCtKzvTFHLRXwXJs0xpSTPgHIgk13cSWBe8IezqOhRwt54G2kEt3J0sVdntKuh5tkqOF69m9DkFuAb3KX_oDpuNHB674K3xaAGfRFqe5I-w7__v4U3La2lQ7iwq99FCDRIuKq8AHB5KJkg5WyEjkrgeVvXl6pdtQ",
+          "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm9qZWN0SWQiOiJwLTU3NGNiMjgxIiwiaWF0IjoxNzE5MjIzOTMxLCJleHAiOjIwMzQ3OTk5MzF9.hzbpNocushgQE7n0w__0FlpLqTpIG2Lv8Iz_rd7R8Sk03KOAKWzTWaaJZXgPFP3lIQWwkSfK-8QC6_dlVXEFx1D5MK-R58B05KzfhF5q3JjC1AoDw-Bds474VtBjXQO_ntbUUUtLEocKoYgdLvH13GP4G82InGNLHsvIYDqvpyq-eyyf7-XeU0dlcwB4DumKADrWQh9D0ZfZbXDLg6GdbcesmRSctvqvVNJxwD_R-94NHVj02G-98PbAiw1EiMUgzxk5iPLy9-JEGboDS7xkE8_yOSO9wXNbvseZjuYgGktrTQBnw4Dn29fRiyc0-ThGkRrJ0-uyw-W3r-jExGc-UQ",
         "Content-Type": "application/json",
         Accept: "application/json",
       };
@@ -37,7 +37,7 @@ export default function Page() {
           image.src = "data:image/png;base64," + response.data?.result;
           const link = document.createElement("a");
           link.href = image.src;
-          link.setAttribute("download", "image.png");
+          link.setAttribute("download", "protected_image.png");
           document.body.appendChild(link);
           link.click();
           setLoading(false);
@@ -101,8 +101,8 @@ export default function Page() {
 
       <div className={styles.dropContainer}>
         <Dropzone maxFiles={1} className={styles.drop} onChange={updateFiles} value={files}>
-          {files.map((file: any) => (
-            <FileMosaic {...file} preview />
+          {files.map((file: any, idx: any) => (
+            <FileMosaic key={idx} {...file} preview />
           ))}
         </Dropzone>
         <div className={styles.buttons}>
