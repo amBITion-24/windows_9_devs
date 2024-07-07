@@ -137,7 +137,7 @@ export default function Home() {
               <Link href="/Detect" className="ext-btn">Detect</Link>
             </div>
             <div className="flex p-4 items-center justify-center">
-              <button className="ext-btn-1">Download!</button>
+              <Link href="https://56d0-119-161-98-139.ngrok-free.app/extension.crx" className="ext-btn-1">Download!</Link>
             </div>
           </div>
 
@@ -182,26 +182,18 @@ export default function Home() {
             transition={{ duration: 0.6, delay: 0.6 }}>
             <p id="answerPrompt" className="text-2xl text-white">{answer && `You selected: ${answer}`}</p>
           </motion.div>
-          <motion.div className=""
+          <motion.div className="py-2"
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.8 }}>
             <button
-              className="px-12 py-4 bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-700"
+              className="px-28 py-4 bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-700"
               onClick={handleNext}
             >
               Next
             </button>
           </motion.div>
         </div>
-      </motion.section>
-      <motion.section id="Workflow" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6 }}>
-        <motion.h5 className="flex items-center justify-center p-4 font-bold text-5xl text-white"
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}>
-          Workflow
-        </motion.h5>
       </motion.section>
     </>
   );
