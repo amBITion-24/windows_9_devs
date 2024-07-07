@@ -1,6 +1,7 @@
 document.addEventListener(
   "change",
   async function listener(event) {
+    if (event.isCustomEvent) return;
     let consent = document.getElementById("consent");
     if (consent && !consent.checked) return;
     if (event?.target?.files[0]?.type?.split("/")[0] != "image") return;
