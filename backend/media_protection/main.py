@@ -1,43 +1,35 @@
 import base64
+import io
 import torch
 
-import os
-import sys
-from PIL import Image
-import torch
-import numpy as np
+from diffusers import StableDiffusionPipeline, DPMSolverMultistepScheduler
+from typing import Optional 
 from pydantic import BaseModel
+import os
+from PIL import Image, ImageOps
+import requests
 import torch
+import matplotlib.pyplot as plt
+import numpy as np
+
+import torch
+import requests
 from tqdm import tqdm
 from io import BytesIO
 from diffusers import StableDiffusionImg2ImgPipeline
-import torchvision.transforms as T 
+import torchvision.transforms as T # type: ignore
+# Specify the model to be loaded
+model_id = 'stabilityai/stable-diffusion-2-1'
 
-from fast_load import fast_load
+# Load the pipeline from the pre-trained model
+pipe = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
 
-class Item(BaseModel):
-    prompt: str
+# Optimize for speed and efficiency by using a multistep scheduler
+pipe.scheduler = DPMSolverMultistepScheduler.from_config(pipe.scheduler.config)
 
-os.environ["HUGGINGFACE_HUB_ENABLE_HF_TRANSFER"] = "1"
+# Move model and computations to GPU for faster processing
+pipe = pipe.to('cuda')
 
-print("\n\n", file=sys.stderr)
-print(("#" * 40), file=sys.stderr)
-print("Starting main.py", file=sys.stderr)
-print(("#" * 40), file=sys.stderr)
-print("\n\n", file=sys.stderr)
-
-model_path = "runwayml/stable-diffusion-v1-5"
-
-pipe_img2img = StableDiffusionImg2ImgPipeline.from_pretrained(
-    model_path,
-    revision="fp16", 
-    torch_dtype=torch.float16,
-)
-pipe_img2img = pipe_img2img.to("cuda")
-
-model = fast_load(model_id=model_path, load_weights_func=pipe_img2img, faster=True)
-
-# Image preprocessing
 def preprocess(image):
     w, h = image.size
     w, h = map(lambda x: x - x % 32, (w, h))  # resize to integer multiple of 32
@@ -46,16 +38,25 @@ def preprocess(image):
     image = image[None].transpose(0, 3, 1, 2)
     image = torch.from_numpy(image)
     return 2.0 * image - 1.0
-
-# Model process execution
 def model_run(b64_source):
     to_pil = T.ToPILImage()
+    model_id_or_path = "runwayml/stable-diffusion-v1-5"
+
+    pipe_img2img = StableDiffusionImg2ImgPipeline.from_pretrained(
+        model_id_or_path,
+        revision="fp16", 
+        torch_dtype=torch.float16,
+    )
+    pipe_img2img = pipe_img2img.to("cuda")
+    #with open("b64_source.txt","r") as x:
+    #    image_data=x.read()
     image_data=b64_source
     init_image=base64.b64decode(image_data)
     init_image = Image.open(BytesIO(init_image)).convert('RGB')
     resize = T.transforms.Resize(512)
     center_crop = T.transforms.CenterCrop(512)
     init_image = center_crop(resize(init_image))
+    init_image
     def pgd(X, model, eps=0.1, step_size=0.015, iters=40, clamp_min=0, clamp_max=1, mask=None):
         X_adv = X.clone().detach() + (torch.rand(*X.shape)*2*eps-eps).cuda()
         pbar = tqdm(range(iters))
@@ -82,7 +83,7 @@ def model_run(b64_source):
     with torch.autocast('cuda'):
         X = preprocess(init_image).half().cuda()
         adv_X = pgd(X, 
-                    model=model.vae.encode, 
+                    model=pipe_img2img.vae.encode, 
                     clamp_min=-1, 
                     clamp_max=1,
                     eps=0.03, # The higher, the less imperceptible the attack is 
@@ -102,7 +103,6 @@ def model_run(b64_source):
 
     # Return the base64 encoded image
     return base64_adv_image
-
 def predict(prompt: str):
     b64=model_run(prompt)
     return b64

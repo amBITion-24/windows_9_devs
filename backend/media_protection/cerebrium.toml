@@ -2,7 +2,7 @@
 name = "image-protection"
 python_version = "3.11"
 cuda_version = "12"
-include = "[./*, main.py, cerebrium.toml, fast_load.py]"
+include = "[./*, main.py, cerebrium.toml]"
 exclude = "[.*]"
 shell_commands = []
 
@@ -28,5 +28,3 @@ pillow= "latest"
 torchvision= "latest"
 tqdm= "latest"
 tensorizer = ">=2.7.0"
-diffusers = "latest"
-pydantic = "latest"
