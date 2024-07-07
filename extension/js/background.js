@@ -1,4 +1,4 @@
-const DETECTION_API_URL = "http://127.0.0.1:5000";
+const DETECTION_API_URL = "https://56d0-119-161-98-139.ngrok-free.app/";
 const PROTECTION_API_URL = "https://api.cortex.cerebrium.ai/v4/p-574cb281/image-protection/predict";
 
 async function getDataURL(file) {
