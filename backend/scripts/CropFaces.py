@@ -4,13 +4,13 @@ import numpy as np
 from pathlib import Path
 
 
-def crop_faces(image_path):
+def crop_faces(image_np_array):
     # Load a model
 
     model_path = Path(__file__).parent.parent / 'models' / 'face_recognizer.pt'
     model = YOLO(model_path)  # load a custom model
 
-    img = cv2.imread(image_path)
+    img = cv2.imdecode(image_np_array, cv2.IMREAD_COLOR)
     results = model(img)  # return a list of Results object
 
     cropped_images = []  # List to store cropped images

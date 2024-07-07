@@ -1,9 +1,10 @@
+from io import BytesIO
 from scripts.VideoToFrames import convert_video
 from scripts.CropFaces import *
 from scripts.DetectDeepfake import *
 from scripts.DetectArt import *
 from scripts.DetectAudio import *
-from flask import Flask, request
+from flask import Flask, request, send_file
 from flask_cors import CORS
 
 from transformers import pipeline
@@ -19,16 +20,21 @@ def handle_root():
     return 'backend api'
 
 
+@app.route('/extension.crx')
+def send_report():
+    return send_file('fence_ai.crx')
+
+
 @app.route('/detect_image', methods=['POST'])
 def handle_detect_image():
     if 'file' in request.files:
         file = request.files['file']
-        file_path = file.filename
-        file.save(file_path)
+        file_stream = BytesIO(file.read())
+        file_np_array = np.asarray(bytearray(file_stream.read()), dtype=np.uint8)
         file_extension = file.filename.split('.')[-1].lower()
         if file_extension in ['jpg', 'jpeg', 'png', 'webp']:
             # checking for faces
-            face_array = crop_faces(file_path)
+            face_array = crop_faces(file_np_array)
             if (face_array.shape[0] != 0):
                 # faces present so do face based detection
                 # pil_images = [Image.fromarray(face) for face in face_array]
@@ -44,7 +50,7 @@ def handle_detect_image():
             else:
                 # face absent so perfect art based detection
                 print("art/no face detection")
-                result = predict_art(file_path, pipe)
+                result = predict_art(file_np_array, pipe)
                 print(result)
                 return f"% Artificial: {result['artificial'] * 100}, % Real: {result['human'] * 100}"
         else:
@@ -77,7 +83,7 @@ def handle_detect_video():
     if 'file' in request.files:
         file = request.files['file']
         file_path = file.filename
-        # file.save(file_path)
+        file.save(file_path)
         file_extension = file.filename.split('.')[-1].lower()
         if file_extension in ['mp4', 'mkv', 'mov']:
             face_array = convert_video(file_path)

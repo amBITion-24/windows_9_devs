@@ -10,8 +10,8 @@ def art_classifier(image, pipe):
     return results
 
 
-def predict_art(path_img, pipe):
-    img_arr = cv.imread(path_img)
+def predict_art(img_np_arr, pipe):
+    img_arr = cv.imdecode(img_np_arr, cv.IMREAD_COLOR)
     img = Image.fromarray(img_arr)
     res = art_classifier(img, pipe)
     return res
