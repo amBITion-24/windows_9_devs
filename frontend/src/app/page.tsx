@@ -112,12 +112,6 @@ export default function Home() {
               >
                 Playground
               </Link>
-              <Link
-                href="#Workflow"
-                className="text-slate-400 text-xl font-semibold hover:bg-gradient-to-r from-[#055ad9] to-[#F907FC] bg-clip-text hover:text-transparent transition-all duration-500 transform hover:scale-110"
-              >
-                Workflow
-              </Link>
             </div>
           </div>
           <hr className="border-slate-400 mt-2" />
@@ -128,7 +122,7 @@ export default function Home() {
             <h3 className="font-extrabold ml-10 text-8xl bg-gradient-to-r from-[#055ad9] to-[#F907FC] bg-clip-text text-transparent">
               fence.ai
             </h3>
-            <h1 className="text-2xl font-bold ml-10 mt-1">Your Shield Against AI Exploitation.</h1>
+            <h1 className="text-2xl font-bold ml-10 mt-1">Using AI to stop AI.</h1>
             <p className="text-xl mt-4 ml-12">
               Protecting user media from AI exploitation through content immunization and accurate AI detection, ensuring your digital assets remain secure and authentic on social media.
             </p>
