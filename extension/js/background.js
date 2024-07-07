@@ -1,5 +1,5 @@
 const DETECTION_API_URL = "https://56d0-119-161-98-139.ngrok-free.app/";
-const PROTECTION_API_URL = "https://api.cortex.cerebrium.ai/v4/p-04c3d2f4/import-prot/predict";
+const PROTECTION_API_URL = "https://api.cortex.cerebrium.ai/v4/p-04c3d2f4/image-prot/predict";
 
 async function getDataURL(file) {
   return new Promise((resolve) => {

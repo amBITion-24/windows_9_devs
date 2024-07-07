@@ -16,7 +16,7 @@ export default function Page() {
 
     reader.onload = () => {
       console.log("called: ", reader);
-      const url = "https://api.cortex.cerebrium.ai/v4/p-04c3d2f4/import-prot/predict";
+      const url = "https://api.cortex.cerebrium.ai/v4/p-04c3d2f4/image-prot/predict";
 
       //@ts-ignore
       const payload = JSON.stringify({ prompt: `${reader?.result?.split("base64,")[1]}` });
