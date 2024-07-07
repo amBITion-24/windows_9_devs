@@ -11,14 +11,41 @@ chrome.runtime.onMessage.addListener((msg) => {
 	}
 
 	if (msg.subject === "dataForPopup") {
+		if (msg.data.mediaType?.includes("video")) {
+			generateVideoThumbnail(msg.data.mediaUrl).then((thumbnail) => {
+				popupImage.src = thumbnail;
+			});
+		} else popupImage.src = msg.data.mediaUrl;
+
 		if (msg.popupType == "result") {
-			popupImage.src = msg.data.mediaUrl;
 			resultSpan.innerHTML = msg.data.result;
 		} else if (msg.popupType == "loader") {
-			popupImage.src = msg.data.mediaUrl;
 			resultSpan.innerHTML = msg.data.text;
 		}
 	} else if (msg.subject === "closePopup") {
 		window.close();
 	}
 });
+
+const generateVideoThumbnail = (src) => {
+	return new Promise((resolve) => {
+		const canvas = document.createElement("canvas");
+		const video = document.createElement("video");
+
+		// this is important
+		video.autoplay = true;
+		video.muted = true;
+		video.src = src;
+
+		video.onloadeddata = () => {
+			let ctx = canvas.getContext("2d");
+
+			canvas.width = video.videoWidth;
+			canvas.height = video.videoHeight;
+
+			ctx.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+			video.pause();
+			return resolve(canvas.toDataURL("image/png"));
+		};
+	});
+};

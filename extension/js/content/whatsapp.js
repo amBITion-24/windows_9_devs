@@ -39,7 +39,7 @@ document.body.addEventListener("click", async (event) => {
 	}
 });
 
-function appendDetectButton(elementId) {
+function appendDetectButtonInto(elementId) {
 	let targetElements = document.getElementsByClassName(elementId);
 	if (targetElements.length == 0) return;
 	for (var i = 0; i < targetElements.length; i++) {
@@ -65,7 +65,7 @@ function appendDetectButton(elementId) {
 	}
 }
 
-function appendConsentButton(elementId) {
+function appendConsentButtonInto(elementId) {
 	let parentElement = document.getElementsByClassName(elementId)[0];
 	if (!parentElement) return;
 	var targetParentElement = parentElement.children[0];
@@ -89,14 +89,12 @@ function appendConsentButton(elementId) {
 MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
 
 const observer = new MutationObserver(function () {
-	//whatsapp (not working completly, so hidden for the moment)
-	//appendDetectButton("x9f619 xyqdw3p x10ogl3i xg8j3zb x1k2j06m x1n2onr6");
-	appendDetectButton("_ak4r");
-	//whatsapp video
-	appendDetectButton("_ajv3 _ajv1");
+	appendDetectButtonInto("_ak4r");
 
-	//whatsapp
-	appendConsentButton("whatsapp", "_ak5b");
+	//video
+	appendDetectButtonInto("_ajv3 _ajv1");
+
+	appendConsentButtonInto("_ak5b");
 });
 // Register the element root you want to look for changes
 observer.observe(document, {

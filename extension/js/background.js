@@ -139,12 +139,15 @@ chrome.runtime.onMessage.addListener(async (msg, sender) => {
 
 	// Handle the message
 	console.log("Message recieved", msg);
+
+	const blob = await getBlobFromURL(msg.mediaUrl);
+
 	if (msg.subject === "detectionRequest") {
 		let popupTabId = await createPopup(msg.top, msg.left, {
 			popupType: "loader",
-			data: { mediaUrl: msg.mediaUrl, text: "Detecting..." },
+			data: { mediaUrl: msg.mediaUrl, mediaType: blob.type, text: "Detecting..." },
 		});
-		const blob = await getBlobFromURL(msg.mediaUrl);
+
 		let file;
 		if (blob.type.includes("image")) {
 			file = new File([blob], "image.jpg", { type: blob.type });
@@ -154,18 +157,21 @@ chrome.runtime.onMessage.addListener(async (msg, sender) => {
 
 		const res = await detectAI(file);
 		//create popup to show results
-		updatePopup(popupTabId, { popupType: "result", data: { mediaUrl: msg.mediaUrl, result: res } });
+		updatePopup(popupTabId, {
+			popupType: "result",
+			data: { mediaUrl: msg.mediaUrl, mediaType: blob.type, result: res },
+		});
 	} else if (msg.subject === "protectionRequest") {
 		//create popup to show loading state
 		let popupTabId = await createPopup(msg.top, msg.left, {
 			popupType: "loader",
 			data: {
 				mediaUrl: msg.mediaUrl,
+				mediaType: blob.type,
 				text: "Protecting...",
 			},
 		});
 
-		const blob = await getBlobFromURL(msg.mediaUrl);
 		const protectedBlob = await protectMedia(blob);
 
 		chrome.tabs.sendMessage(popupTabId, {
