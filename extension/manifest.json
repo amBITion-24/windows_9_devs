@@ -2,6 +2,11 @@
 	"manifest_version": 3,
 
 	"name": "fence.ai",
+	"icons": {
+		"16": "icons/logo_white.png",
+		"48": "icons/logo_white.png",
+		"128": "icons/logo_white.png"
+	},
 	"version": "0.1.0",
 	"description": "Detect AI generated images and protect images against AI exploitation.",
 	"permissions": ["activeTab", "scripting"],

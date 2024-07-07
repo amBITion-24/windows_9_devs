@@ -14,7 +14,7 @@ async function getDataURL(file) {
 	});
 }
 
-function handle_detect() {
+function input_file(onUpload) {
 	let input = document.createElement("input");
 	input.type = "file";
 	input.click();
@@ -26,23 +26,38 @@ function handle_detect() {
 		const supported_types = Object.values(SUPPORTED_FILE_TYPES).flat();
 
 		if (supported_types.includes(file.type)) {
-			let dataURL = await getDataURL(file);
-			chrome.runtime.sendMessage({
-				from: "menu",
-				subject: "detectionRequest",
-				mediaUrl: dataURL,
-				fileType: file.type,
-				left: window.screenLeft + window.outerWidth,
-				top: window.screenTop,
-			});
-			window.close();
+			onUpload(file);
 		} else {
 			alert("Unsupported file type.");
 		}
 	};
 }
 
+async function handle_detect(file) {
+	let dataURL = await getDataURL(file);
+	chrome.runtime.sendMessage({
+		from: "menu",
+		subject: "detectionRequest",
+		mediaUrl: dataURL,
+		left: window.screenLeft + window.outerWidth,
+		top: window.screenTop,
+	});
+	window.close();
+}
+
+async function handle_protect(file) {
+	let dataURL = await getDataURL(file);
+	chrome.runtime.sendMessage({
+		from: "menu",
+		subject: "protectionRequest",
+		mediaUrl: dataURL,
+		left: window.screenLeft + window.outerWidth,
+		top: window.screenTop,
+	});
+	window.close();
+}
+
 document.addEventListener("DOMContentLoaded", function () {
-	document.getElementById("detect-btn").addEventListener("click", handle_detect);
-	document.getElementById("protect-btn").addEventListener("click", handle_detect);
+	document.getElementById("detect-btn").addEventListener("click", input_file.bind(null, handle_detect));
+	document.getElementById("protect-btn").addEventListener("click", input_file.bind(null, handle_protect));
 });

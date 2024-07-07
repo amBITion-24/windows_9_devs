@@ -179,11 +179,22 @@ chrome.runtime.onMessage.addListener(async (msg, sender) => {
 			subject: "closePopup",
 		});
 
-		// send result back to sender
-		chrome.tabs.sendMessage(sender.tab.id, {
-			from: "background",
-			subject: "protectionResponse",
-			result: await getDataURL(protectedBlob),
-		});
+		if (msg.from === "menu") {
+			// create a popup to download file
+			await createPopup(msg.top, msg.left, {
+				popupType: "fileDownloadPopup",
+				data: {
+					mediaUrl: msg.mediaUrl,
+					fileName: "protected.jpg",
+				},
+			});
+		} else {
+			// send result back to sender
+			chrome.tabs.sendMessage(sender.tab.id, {
+				from: "background",
+				subject: "protectionResponse",
+				result: await getDataURL(protectedBlob),
+			});
+		}
 	}
 });

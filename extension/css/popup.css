@@ -37,6 +37,13 @@
   border-radius: 10px;
 }
 
+.popup-image-selected {
+  width: 75%;
+  aspect-ratio: 1;
+  margin-top: 20px;
+  border-radius: 10px;
+}
+
 .main-title {
   margin-top: 20px;
   font-size: 38px;
@@ -54,8 +61,7 @@
   align-items: center;
   justify-content: space-evenly;
   flex-direction: column;
-  margin-top: 30px;
-  height: 100%;
+  margin-top: 1rem;
 }
 
 .ext-btn {
@@ -99,9 +105,9 @@
 }
 
 .popup-result {
-  color: rgb(202, 202, 202);
+  color: rgb(255, 255, 255);
   font-size: 18px;
-  font-weight: bold;
-  margin-right: 10px;
-  margin-top: 45px;
+  font-weight: bolder;
+  margin-top: 5px;
+  text-align: center;
 }

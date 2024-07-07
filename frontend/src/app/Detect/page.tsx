@@ -24,7 +24,7 @@ export default function Page() {
       if (fileType.startsWith("image/")) {
         formData.append("file", file);
         axios
-          .post("https://7t6qwzmb-5000.inc1.devtunnels.ms/detect", formData)
+          .post("https://56d0-119-161-98-139.ngrok-free.app/detect_image", formData)
           .then((res) => {
             console.log(res.data);
             setResult(res.data);
