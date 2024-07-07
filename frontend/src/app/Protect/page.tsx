@@ -9,7 +9,6 @@ import { Dropzone, FileInputButton, FileMosaic } from "@files-ui/react";
 //@ts-ignore
 import Loading from "@/components/loading";
 export default function Page() {
-  
   const convertToBase64 = (selectedFile: any) => {
     const reader = new FileReader();
 
@@ -17,20 +16,20 @@ export default function Page() {
 
     reader.onload = () => {
       console.log("called: ", reader);
-      const url = "https://api.cortex.cerebrium.ai/v4/p-574cb281/image-protection/predict";
+      const url = "https://api.cortex.cerebrium.ai/v4/p-04c3d2f4/import-prot/predict";
 
       //@ts-ignore
       const payload = JSON.stringify({ prompt: `${reader?.result?.split("base64,")[1]}` });
 
       const headers = {
         Authorization:
-          "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm9qZWN0SWQiOiJwLTU3NGNiMjgxIiwiaWF0IjoxNzE5MjIzOTMxLCJleHAiOjIwMzQ3OTk5MzF9.hzbpNocushgQE7n0w__0FlpLqTpIG2Lv8Iz_rd7R8Sk03KOAKWzTWaaJZXgPFP3lIQWwkSfK-8QC6_dlVXEFx1D5MK-R58B05KzfhF5q3JjC1AoDw-Bds474VtBjXQO_ntbUUUtLEocKoYgdLvH13GP4G82InGNLHsvIYDqvpyq-eyyf7-XeU0dlcwB4DumKADrWQh9D0ZfZbXDLg6GdbcesmRSctvqvVNJxwD_R-94NHVj02G-98PbAiw1EiMUgzxk5iPLy9-JEGboDS7xkE8_yOSO9wXNbvseZjuYgGktrTQBnw4Dn29fRiyc0-ThGkRrJ0-uyw-W3r-jExGc-UQ",
+          "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm9qZWN0SWQiOiJwLTA0YzNkMmY0IiwiaWF0IjoxNzIwMjU1NTM4LCJleHAiOjIwMzU4MzE1Mzh9.A0uXE5QLD7T1mZhkbW7hnand4_mb2dTJnXnU8RI0AQBPJ31TxMiqLZk5zp4lG8lvn8LIvw9zEEoGHRZRNw1UjdPq33yhANNW_0OIf0aOBW4QhAwpMg0oCLLk0fz73bNTmKF0N5ilFpwGsUB9svrWpftFrejq_F4hUXkRAfqhD8G_TXqQFTqZiroH_OZFEN2mQTVvgvKmSDn8c1js9pUvNcfAG9f2X3flX3rnnG6QF9urOukbZx9E6brQKrYezVPgalFJNNRJsB29q15dW_Igv5zCj3Lka2716Jhs5P8hFPu3nOAHuyEADyS-dNRki8oNNrnKf5JehE0dHEXjpl9A0A",
         "Content-Type": "application/json",
         Accept: "application/json",
       };
       axios
         .post(url, payload, { headers: headers })
-        .then((response) => {
+        .then((response: any) => {
           console.log(response.data);
           console.log(response.data?.result);
           var image = new Image();
@@ -42,7 +41,7 @@ export default function Page() {
           link.click();
           setLoading(false);
         })
-        .catch((error) => {
+        .catch((error: any) => {
           console.error(error);
         });
     };
@@ -73,7 +72,7 @@ export default function Page() {
           responseType: "blob", // important
           data: formData,
         })
-          .then((response) => {
+          .then((response: any) => {
             console.log(response);
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement("a");
@@ -83,7 +82,7 @@ export default function Page() {
             link.click();
             setLoading(false);
           })
-          .catch((error) => {
+          .catch((error: any) => {
             console.error(error);
           });
       }
@@ -115,6 +114,5 @@ export default function Page() {
         </div>
       </div>
     </div>
-
   );
 }
